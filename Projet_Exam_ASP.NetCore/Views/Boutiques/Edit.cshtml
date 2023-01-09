@@ -1,0 +1,349 @@
+﻿@model Projet_Exam_ASP.NetCore.Models.Boutique
+@using Projet_Exam_ASP.NetCore.Data.enums
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<style>
+    .product-text h3 input {
+        background: transparent;
+        border: 1px solid #ced4da4f;
+        color: white;
+        font-size: 11px;
+        font-family: 'Raleway', sans-serif;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+    }
+        .product-text h3 input:hover {
+            color: black;
+            background: white;
+        }
+    .text-danger {
+        color: #dc3545 !important;
+        margin-left: 38px;
+        font-size: 0.9em;
+        position: absolute;
+    }
+    .submitBtn {
+        float: right;
+        display: inline-block;
+        height: 40px;
+        width: 176px;
+        margin: 30px 40px 0 16px;
+        box-sizing: border-box;
+        border: transparent;
+        border-radius: 60px;
+        font-family: 'Raleway', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: #ffffff;
+        background-color: #000000;
+        cursor: pointer;
+        outline: none;
+    }
+    .btn-primary:hover {
+        color: #fff;
+        background-color: #6c6b6b;
+        border-color: #0062cc00;
+    }
+
+
+    .picture {
+        width: 327px;
+        height: 420px;
+        background-color: #999999;
+        border: 4px solid #CCCCCC;
+        color: #FFFFFF;
+        border-radius: 10px;
+        @*margin: 0px auto;
+        *@ overflow: hidden;
+        transition: all 0.2s;
+        -webkit-transition: all 0.2s;
+    }
+
+    @* tiw tiw tiw *@ .picture:hover {
+        border-color: #bd5757;
+    }
+
+    .content.ct-wizard-green .picture:hover {
+        border-color: #05ae0e;
+    }
+
+    .content.ct-wizard-blue .picture:hover {
+        border-color: #3472f7;
+    }
+
+    .content.ct-wizard-orange .picture:hover {
+        border-color: #ff9500;
+    }
+
+    .content.ct-wizard-red .picture:hover {
+        border-color: #ff3b30;
+    }
+
+    .picture input[type="file"] {
+        cursor: pointer;
+        display: block;
+        height: 126px;
+        left: 44%;
+        top: 40px;
+        opacity: 0 !important;
+        position: absolute;
+        width: 126px;
+    }
+
+    .picture .fa-download {
+        position: absolute;
+    }
+
+    .picture-src {
+        width: 100%;
+    }
+    .fa-camera {
+        position: absolute;
+        bottom: 471px;
+        right: 925px;
+        font-size: 30px;
+        background: #c9c5c5d9;
+        border-radius: 50px;
+        color: black;
+        width: 60px;
+        height: 60px;
+        padding-top: 15px;
+        padding-left: 15.7px;
+        cursor: pointer;
+    }
+
+        .fa-camera:hover {
+            background: #c96b6b;
+        }
+    .product-img img {
+        border-radius: 10px;
+        background: #fdf1ec;
+    }
+    .picture input[type="file"] {
+        cursor: pointer;
+        display: block;
+        height: 412px;
+        top: 170px;
+        bottom: 171px;
+        left:304px;
+        opacity: 0 !important;
+        position: absolute;
+        width: 319px;
+    }
+    #titreH2 {
+        color: #000;
+        font-size: 26px;
+        font-weight: 300;
+        text-align: center;
+        text-transform: uppercase;
+        position: relative;
+        margin: 30px 0 80px;
+        font-family: century;
+        margin-top: 70px;
+        margin-bottom: 50px;
+    }
+    .backBoutique a {
+        float: right;
+        display: inline-block;
+        height: 50px;
+        width: 350px;
+        margin: 10 40px 0 16px;
+        box-sizing: border-box;
+        border: transparent;
+        border-radius: 60px;
+        font-family: 'Raleway', sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: #bd5757;
+        cursor: pointer;
+        outline: none;
+        text-decoration: underline;
+    }
+
+    .backBoutique a:hover {
+        color: #212529ba;
+    }
+    #villes {
+        background-color: #fff0;
+        /* border-bottom: 1px solid #ced4da5e; */
+        color: white;
+        border: 1px solid #ced4da5e;
+        font-size: 11px;
+        font-family: 'Raleway', sans-serif;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        height: 33px;
+    }
+        #villes:hover {
+            color:black;
+            background-color:white;
+        }
+</style>
+<link href="~/css/HomeStyle.css" rel="stylesheet" />
+<h2 id="titreH2" >
+</h2>
+<div style="position: absolute;margin-top: 70px; width: 300px; right: auto; height: 60px; margin-top: -110px; left: 100px; " class="backBoutique">
+    <a asp-action="Details" asp-controller="Boutiques" asp-route-id="@Model.Id" style="margin-top: 70px;">
+        <i class="fas fa-backward"></i> Back to @Model.Nom
+    </a>
+</div>
+<form asp-action="Edit" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="wrapper" style="margin-left:300px">
+        <div class="product-img">
+            <div id="ImgUser">
+                <div class="picture">
+
+                    <img src="@("/Images/Boutiques/"+ViewBag.image)" class="picture-src" id="wizardPicturePreview" title="" style="object-fit: cover; height:100%;">
+                    <input accept="image/*" type="file" name="image" id="wizard-picture" class="picture-src valid" aria-invalid="false" style="vertical-align: middle;" />
+                    <i class="fas fa-camera" id="camera" style="pointer-events: none;"></i>
+
+                </div>
+                <h6 class=""></h6>
+            </div>
+        </div>
+        <div class="product-info">
+            <div style="display:inline-flex">
+                <div class="product-text">
+                    <div style=" margin-right: 38px;">
+                        <h4 style=" width: 242px;">Nom boutique</h4>
+                        <input asp-for="Nom" class="form-control" placeholder="Nom boutique" style="font-size: 30px; color: #474747; margin-left: 38px; margin-right: 38px; width: 245px; }" />
+                    </div>
+                    <span asp-validation-for="Nom" class="text-danger"></span>
+
+
+                    
+                    <h4 style=" width: 242px; margin-top: 45px;">description boutique</h4>
+                    <p><textarea asp-for="Description" class="form-control" placeholder="Description de la boutique" style="height: 125px; font-family: 'Playfair Display', serif; color: #8d8d8d; line-height: 1.7em; font-size: 15px; font-weight: lighter; overflow: hidden; margin-right: 45px; text-align: justify;"></textarea></p>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary submitBtn" />
+                    </div>
+                </div>
+                <div style="background-color:black" class="product-info">
+                    <div class="product-text">
+                        <br />
+                        <h4 style=" margin-top: 25px;">Site Web : </h4>
+                        <div class="form-group">
+                            <h3 style="margin-right: 38px;"><input asp-for="site" class="form-control" placeholder="SiteWeb de la boutique" /></h3>
+                            <span asp-validation-for="site" class="text-danger"></span>
+                        </div>
+                        <h4>Ville : </h4>
+                        <div class="form-group">
+                            <h3 style="margin-right: 38px;">
+                                <select id="villes" asp-for="Ville" asp-items="Html.GetEnumSelectList<Ville>()" class="form-control" style="padding-right:5px;padding-left:5px">
+                                    <option selected disabled>--Selectionnez une ville--</option>
+                                </select></h3>
+                            <span asp-validation-for="Ville" class="text-danger"></span>
+                        </div>
+                        <h4>Adresse : </h4>
+                        <div class="form-group">
+                            <h3 style="margin-right: 38px;"><input asp-for="Adresse" class="form-control" placeholder="Adresse de la boutique" /></h3>
+                            <span asp-validation-for="Adresse" class="text-danger"></span>
+                        </div>
+
+                        <h4>Numero de telephone : </h4>
+                        <div class="form-group">
+                            <h3 style="margin-right: 38px;"><input asp-for="Telephone" class="form-control" placeholder="Numero de telephone" /></h3>
+                            <span asp-validation-for="Telephone" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@*<h4>Boutique</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="Nom" class="control-label"></label>
+                    <input asp-for="Nom" class="form-control" />
+                    <span asp-validation-for="Nom" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Telephone" class="control-label"></label>
+                    <input asp-for="Telephone" class="form-control" />
+                    <span asp-validation-for="Telephone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Ville" class="control-label"></label>
+                    <input asp-for="Ville" class="form-control" />
+                    <span asp-validation-for="Ville" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="site" class="control-label"></label>
+                    <input asp-for="site" class="form-control" />
+                    <span asp-validation-for="site" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Adresse" class="control-label"></label>
+                    <input asp-for="Adresse" class="form-control" />
+                    <span asp-validation-for="Adresse" class="text-danger"></span>
+                </div>
+                <div class="form-group" id="images">
+                    <div>
+                        <input type="file" name="image"  />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    $(document).ready(function () {
+        // Prepare the preview for profile picture
+        $("#wizard-picture").change(function () {
+            readURL(this);
+        });
+    });
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#wizard-picture").hover(function () {
+        var i = document.getElementById('camera');
+        i.style.background = "#c96b6b";
+    },
+        function () {
+            var i = document.getElementById('camera');
+            i.style.background = "#c9c5c5d9";
+        })
+</script>

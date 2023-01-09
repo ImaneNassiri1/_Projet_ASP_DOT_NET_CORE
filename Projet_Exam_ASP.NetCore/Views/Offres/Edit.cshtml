@@ -1,0 +1,90 @@
+﻿@model Projet_Exam_ASP.NetCore.Models.Offre
+@using Projet_Exam_ASP.NetCore.Data.enums
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Offre</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Titre" class="control-label"></label>
+                <input asp-for="Titre" class="form-control" />
+                <span asp-validation-for="Titre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ville" class="control-label"></label>
+                <input asp-for="Ville" class="form-control" />
+                <span asp-validation-for="Ville" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="Date_Dépot" class="control-label"></label>
+            <input asp-for="Date_Dépot" class="form-control" />
+            <span asp-validation-for="Date_Dépot" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="prix" class="control-label"></label>
+                <input asp-for="prix" class="form-control" />
+                <span asp-validation-for="prix" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Catégorie" class="control-label"></label>
+                <select asp-for="Catégorie" class="form-control" onchange="OnCategoriechangeEdit();" id="CatEdit" asp-items="Html.GetEnumSelectList<Catégorie>()">
+                    <option>--Select category--</option>
+                </select>
+                <span asp-validation-for="Catégorie" class="text-danger"></span>
+            </div>
+            <select disabled="disabled" class="form-control" id="sousCatEdit" name="sousCategorie">
+                <option value="null">--Select category first--</option>
+            </select>
+            <div class="form-group" id="images">
+                <div>
+                    <input type="file" name="images" multiple />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="reduction" class="control-label"></label>
+                <input asp-for="reduction" class="form-control" />
+                <span asp-validation-for="reduction" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+
+    function OnCategoriechangeEdit() {
+        $('#sousCatEdit').removeAttr('disabled');
+        $.get("/Filtre/GetsousCategories", { cat: $("#CatEdit").val() }, function (data) {
+            $("#sousCatEdit").empty();
+            i = 0
+            $("#sousCatEdit").append("<option value='null' selected > --Select sous-categorie--</option>");
+            data.forEach(f => {
+                i = i + 1;
+                $("#sousCatEdit").append("<option value='" + i + "'>" + f + "</option>");
+            })
+        });
+    }
+</script>

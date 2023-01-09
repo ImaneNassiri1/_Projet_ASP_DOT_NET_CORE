@@ -1,0 +1,116 @@
+﻿@model Projet_Exam_ASP.NetCore.Models.Offre
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Projet_Exam_ASP.NetCore.Data.enums
+<h1>Create</h1>
+
+<h4>Offre</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Titre" class="control-label"></label>
+                <input asp-for="Titre" class="form-control" />
+                <span asp-validation-for="Titre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ville" class="control-label"></label>
+                <input asp-for="Ville" class="form-control" />
+                <span asp-validation-for="Ville" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="Date_Dépot" class="control-label"></label>
+            <input asp-for="Date_Dépot" class="form-control" />
+            <span asp-validation-for="Date_Dépot" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="prix" class="control-label"></label>
+                <textarea asp-for="prix" class="form-control"></textarea>
+                <span asp-validation-for="prix" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Catégorie" class="control-label"></label>
+                <select asp-for="Catégorie" class="form-control" onchange="OnCategoriechange();" id="CatCreate" asp-items="Html.GetEnumSelectList<Catégorie>()">
+                    <option>--Select category--</option>
+                </select>
+                <span asp-validation-for="Catégorie" class="text-danger"></span>
+            </div>
+            <select disabled="disabled" class="form-control" id="sousCat1Create" name="sousCategorie">
+                <option value="null">--Select category first--</option>
+            </select>
+            <label class="control-label">Images</label>
+
+
+            <div class="form-group" id="images">
+                <div>
+                    <input type="file" name="images" multiple />
+                    @*<input type="button" value="+" class="btn btn-primary" onClick="addInput(); ">*@
+                </div>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="AppUserId" class="control-label"></label>
+            <select asp-for="AppUserId" class ="form-control" asp-items="ViewBag.AppUserId"></select>
+        </div>*@
+            @*<div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="Valide" /> @Html.DisplayNameFor(model => model.Valide)
+            </label>
+        </div>*@
+            @*<div class="form-group">
+            <label asp-for="reduction" class="control-label"></label>
+            <input asp-for="reduction" class="form-control" />
+            <span asp-validation-for="reduction" class="text-danger"></span>
+        </div>*@
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@*<script>
+
+        function addInput() {
+            var newdiv = document.createElement('div');
+            //newdiv.id = dynamicInput[counter];
+            newdiv.innerHTML = "<input type='button' class='btn btn - primary' value='-' onClick='removeInput(this);'><input type='file'  class='form - control' name='mesImages[]' accept='image/*'> ";
+            document.getElementById('images').appendChild(newdiv);
+        }
+
+        function removeInput(btn) {
+            btn.parentNode.remove();
+        }
+
+    </script>*@
+<script>
+    
+        function OnCategoriechange() {
+            $('#sousCat1Create').removeAttr('disabled');
+            $.get("/Filtre/GetsousCategories", { cat: $("#CatCreate").val() }, function (data) {
+                $("#sousCat1Create").empty();
+                i = 0
+                $("#sousCat1Create").append("<option value='null' selected > --Select sous-categorie--</option>");
+                data.forEach(f => {
+                    i = i + 1;
+                    $("#sousCat1Create").append("<option value='" + i + "'>" + f + "</option>");
+                })
+            });
+        }    
+</script>

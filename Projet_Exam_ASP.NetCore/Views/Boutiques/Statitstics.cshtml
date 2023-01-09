@@ -1,0 +1,210 @@
+﻿<link href="~/css/dashboard.css" rel="stylesheet" />
+<script src="~/lib/bootstrap/dist/js/chart-pie-demo.js"></script>
+<script src="~/lib/bootstrap/dist/js/Chart.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/chart-area-demo.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+@{
+    Layout = "_Layout1";
+}
+<style>
+    .text-xs {
+        font-size: .8rem;
+    }
+
+    body {
+        background: #fdf1ec;
+    }
+
+    .iconeStat {
+        font-size: 1.9rem;
+        color: #c56363;
+    }
+
+    .carteStat {
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background: #faf6f5;
+        border-radius: 10px;
+    }
+
+    .carte span {
+        font-size: 1.05em;
+    }
+
+    #h2Carte {
+        color: #000;
+        font-size: 26px;
+        font-weight: 300;
+        text-align: center;
+        text-transform: uppercase;
+        position: relative;
+        margin: 30px 0 80px;
+        font-family: century;
+        margin-top: 80px;
+        margin-bottom: 50px;
+    }
+
+    .backBoutique a {
+        float: right;
+        display: inline-block;
+        height: 50px;
+        width: 350px;
+        margin: 10 40px 0 16px;
+        box-sizing: border-box;
+        border: transparent;
+        border-radius: 60px;
+        font-family: 'Raleway', sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: #bd5757;
+        cursor: pointer;
+        outline: none;
+        text-decoration: underline;
+    }
+
+        .backBoutique a:hover {
+            color: #212529ba;
+        }
+</style>
+<h2 id="h2Carte">Statistiques de votre boutique</h2>
+<div style="position: absolute; width: 300px; right: auto; height: 60px; margin-top: -120px; left: 100px; " class="backBoutique">
+    <a asp-action="Details" asp-controller="Boutiques" asp-route-id="@ViewBag.Boutique.Id">
+        <i class="fas fa-backward"></i> Back to @ViewBag.Boutique.Nom
+    </a>
+</div>
+<div class="row" style=" margin-right: 100px; margin-left: 100px;">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2" style=" border-left: .25rem solid #ffc107 !important;">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div style="color: #ffc107" class="text-xs font-weight-bold  text-uppercase mb-1">
+                            Nombre d'offres
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.nombreOffres</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-tags fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2" style="border-left: .25rem solid #bd5757 !important;">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div style="color: #bd5757" class="text-xs font-weight-bold  text-uppercase mb-1">
+                            Nombre de favoris
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.nombreFavoris</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-heart fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2" style="border-left: .25rem solid #6e707e !important;">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div style="color: #6e707e" class="text-xs font-weight-bold  text-uppercase mb-1">
+                            Nouveaux posts du mois
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.nombrePostDuMois</div>
+                    </div>
+                    <div class="col-auto">
+                        <img src="~/Images/nouvGris.png" style="width:45px" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2" style="border-left: .25rem solid #36b9cc !important;">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div style="color: #36b9cc" class="text-xs font-weight-bold text-uppercase mb-1">
+                            Nombre de clients
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.nombreClients</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-users fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-left: 30px; margin-right: 0px; margin-top: 100px;">
+    <canvas id="myChart" style="width: 700px; max-width: 700px; display: block; height: 350px; margin-right: 50px;"></canvas>
+    <canvas id="myChart2" style="width: 100%; max-width: 600px; display: block; height: auto;"></canvas>
+</div>
+@{ 
+    List<string> catégories = ViewBag.catégories;
+    List<string> colors = ViewBag.pieChartColors;
+    List<double> Pourcentages = ViewBag.Pourcentages;
+    List<int> NbOffresParMois = ViewBag.NbOffresParMois;
+    int max = NbOffresParMois.Max()+ NbOffresParMois.Max()/4;
+    List<string> Mois = new List<string>() { "Janiver", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Novembre", "Decembre" };
+    }
+<script>
+    var xValues=@Html.Raw(Json.Serialize(catégories)) ;
+    var yValues = @Html.Raw(Json.Serialize(Pourcentages)) ;
+    var barColors = @Html.Raw(Json.Serialize(colors)) ;
+
+    new Chart("myChart", {
+        type: "pie",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Pourcentage offres par catégories"
+            }
+        }
+    });
+    var xValues2 = @Html.Raw(Json.Serialize(Mois)) ;
+    var yValues2 = @Html.Raw(Json.Serialize(NbOffresParMois)) ;
+
+    new Chart("myChart2", {
+        type: "line",
+        data: {
+            labels: xValues2,
+            datasets: [{
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "#bd5757",
+                borderColor: "#bd57577d",
+                data: yValues2,
+                label: "Nombres d'offres",
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Nombre d'offres par mois de l'année "+@DateTime.Now.Year ,
+            },
+            
+            
+            scales: {
+                yAxes: [{ ticks: { min: 0, max: @max} }],
+            }
+        }
+    });
+</script>

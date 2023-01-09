@@ -1,0 +1,320 @@
+﻿@using Projet_Exam_ASP.NetCore.Data.enums;
+@using Microsoft.AspNetCore.Identity
+@using Projet_Exam_ASP.NetCore.Areas.Identity.Data
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Projet_Exam_ASP.NetCore</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/faaaba2665.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/4.1.5/css/flag-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <style>
+    </style>
+
+</head>
+<body>
+    <header style="position: relative;">
+        @*#17a2b8*@
+        <nav style="  background: black; height: 60px; align-content: center;" class="navbar navbar-expand-sm fixed-top navbar-toggleable-sm navbar-light border-bottom box-shadow ">
+
+            <!----->
+            <table>
+                <tr>
+                    <td style="width:500px">
+                        <a class="navbar-brand " style="margin-right: 140px;" asp-area="" asp-controller="Home" asp-action="Index">
+                            @* <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/logo_white.png" width="30" height="30" alt="logo">
+                                BootstrapBay*@
+
+                            <div style=" width:200px;">
+                                @*<p style="margin-bottom: 0px; font-size: 1.4em; color: white;"><i class="fas fa-shopping-bag" style="margin-right:6px; color:white;"></i>  Arak<strong>Ln9at</strong> </p>*@
+                                <p style="margin-bottom: 0px; width: 300px; ">
+                                    <img src="~/Images/Image5.png" style="width:100px ;" />
+
+                                    <img src="~/Images/Image6.png" style="width:170px ; margin-top:10px" />
+                                </p>
+
+                            </div>
+
+                        </a>
+                    </td>
+                    <td>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </td>
+                    <!----->
+                    @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Projet_Exam_ASP.NetCore</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>*@
+                    <td>
+                        @*<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">*@
+                        <div class="col-4 p-0 justify-content-end" style="margin-right: 220px;">
+                            <form asp-controller="Filtre" asp-action="index">
+                                <span class="btn-group">
+                                    <input class="form-control" type="text" name="SearchText" placeholder="Search Key" style=" width:500px;" />
+                                    <button class="p-1 ml-2  btn-sm btn-info " id="search" style="background: #19a1b700; border-color: #00708100 " type="submit"><i class="fas fa-search"></i></button>
+                                </span>
+                            </form>
+                        </div>
+                    </td>
+                    <td>
+
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                        <td>
+                            <a id="email" class="nav-link " style=" color: #ffffff;" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><div>@UserManager.GetUserName(User)</div></a>
+
+                        </td>
+                        <td>
+                            <form id="logoutForm" class="form-inline" style=" color: #ffffff;" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <button id="logout" type="submit" style=" color: #ffffff;" class="nav-link btn btn-link ">Logout</button>
+                            </form>
+                        </td>
+
+                    }
+                    else
+                    {
+                        <td>
+                            <a class="nav-link " id="register" asp-area="Identity" style="color: #ffffff" asp-page="/Account/Register">Register</a>
+                        </td>
+                        <td>
+                            <a class="nav-link " id="login" asp-area="Identity" style="color: #ffffff" asp-page="/Account/Login">Login</a>
+                        </td>
+                    }
+
+
+
+                        @*</div>*@
+                    </tr>
+                </table>
+
+            </nav>
+            <div id="div1cat">
+                <div class="list-group" style="position: absolute; left: 30px; margin-top: 15px; z-index:2;">
+                    <a id="categB" href="#" class="list-group-item list-group-item-action active " style="margin-left: 0px; width: 142px; color: #1c3341; background-color: #80808024; border-color: #007bff00; ">
+                        <i class="fas fa-bars"></i>  Catégories
+                    </a>
+                </div>
+                <div class="list-group" id="categ" style="position: absolute; left: 30px; margin-top: 65px; display: none; z-index: 2 ;">
+                </div>
+                <div class="list-group" id="souscateg" style="position: absolute; left: 20px; margin-left: 287px; margin-top: 65px; display: none; z-index: 2 ;">
+
+                </div>
+            </div>
+            <nav style="background: #e9edf047; margin-top: 60px; align-content: start; box-shadow: 0 8px 16px 0 rgb(0 0 0 / 0%), 0 6px 20px 0 rgb(0 0 0 / 7%); height: 76px; " class=" ">
+                <div class="container" style="margin-left:20px;">
+                    <div>
+                        <table class="navbar-nav flex-grow-1">
+
+                            <tr class="nav-item">
+                                <td style=" padding-right: 20px; width: 350px; height: 78px;">
+                                    @*<select id="Cat" class="form-control" asp-items="Html.GetEnumSelectList<Catégorie>()">
+                                            <option>--Select category--</option>
+                                        </select>
+                                        @using (Html.BeginForm("Index", "Filtre", FormMethod.Post))
+                                        {
+                                            <select disabled="disabled" class="form-control" id="sousCat1" onchange="this.form.submit(); changeE();">
+                                                <option value="null">--Select category first--</option>
+                                            </select>
+                                        }*@
+                                </td>
+
+                                <td style="width:80px;"></td>
+
+                                <td class="nav-item" style=" width: 150px; text-align: center; ">
+                                    <div style="">
+                                        <a asp-controller="Boutiques" asp-action="Index" asp-area=""><i class="fas fa-store-alt" style="font-size: 1.3rem; color:grey"></i></a>
+                                        <a class="nav-link " asp-controller="Boutiques" asp-action="Index" asp-area="" style="padding-top: 0px; padding-bottom: 0; color: #21252999; font-weight: 500; ">Boutiques</a>
+                                    </div>
+                                </td>
+                                <td class="nav-item" style=" width: 150px; text-align: center; ">
+                                    <div style="border-left: 1px solid #8080807a;  ">
+                                        <a asp-area="" asp-controller="Offres" asp-action="Index" asp-route-id="0"><i style="font-size: 1.3rem; color:grey" class="fas fa-tags"></i></a>
+                                        <a class="nav-link " asp-area="" asp-controller="Offres" asp-action="Index" asp-route-id="0" style="padding-top: 0px; padding-bottom: 0; color: #21252999; font-weight: 500; ">Offres</a>
+                                    </div>
+                                </td>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <td class="nav-item" style=" width: 150px; text-align: center; ">
+                                        <div style="border-left: 1px solid #8080807a; ">
+                                            <a asp-area="" asp-controller="Offres" asp-action="MesFavories" ><i class="fas fa-heart" style="font-size: 1.3rem; color:grey"></i></a>
+                                            <a style="padding-top: 0px; padding-bottom: 0; color: #21252999; font-weight: 500; " class="nav-link" asp-area="" asp-controller="Offres" asp-action="MesFavories">Favoris</a>
+                                        </div>
+                                    </td>
+                                }
+                                @if (User.IsInRole("Particulier"))
+                                {
+                                    <td class="nav-item" style=" width: 150px; text-align: center; ">
+                                        <div style="border-left: 1px solid #8080807a; ">
+                                            <a asp-area="" asp-controller="Offres" asp-action="Create"><i class="fas fa-plus " style="font-size: 1.3em; color:grey"></i></a>
+                                            <a style="padding-top: 0px; padding-bottom: 0; color: #21252999; font-weight: 500; " class="nav-link" asp-area="" asp-controller="Offres" asp-action="Create">Ajouter Offre</a>
+                                        </div>
+                                    </td>
+                                }
+                                @if (User.IsInRole("Particulier"))
+                                {
+                                    <td class="nav-item" style=" width: 150px; text-align: center; ">
+                                        <div style="border-left: 1px solid #8080807a; ">
+                                            <a asp-area="" asp-controller="Offres" asp-action="Index" asp-route-id="1">
+                                                <i class="fas fa-user-tag" style="font-size: 1.3em; color:grey"></i>
+                                            </a>
+                                            <a style="padding-top: 0px; padding-bottom: 0; color: #21252999; font-weight: 500; " class="nav-link " asp-area="" asp-controller="Offres" asp-action="MesOffres" asp-route-id="1">Mes offres</a>
+                                        </div>
+                                    </td>
+                                }
+                                @if (User.IsInRole("Boutique") && ViewBag.currentUser != null)
+                                {
+                                    <td class="nav-item" style=" width: 150px; text-align: center; ">
+                                        <div style="border-left: 1px solid #8080807a; ">
+                                            <a asp-area="" asp-controller="Boutiques" asp-action="Details" asp-route-id=@ViewBag.currentUser.BoutiqueId><img src="~/Images/Image1.svg" style=" width: 28px; " /></a>
+                                            <a style="padding-top: 0px; padding-bottom: 0; color: #21252999; font-weight: 500; " class="nav-link" asp-area="" asp-controller="Boutiques" asp-action="Details" asp-route-id=@ViewBag.currentUser.BoutiqueId>Ma boutique</a>
+                                        </div>
+                                    </td>
+                                }
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </nav>
+        </header>
+        <div>
+            <main role="main" class="pb-3 ">
+                @RenderBody()
+            </main>
+        </div>
+
+        <footer class="border-top footer text-muted " style="position: static;">
+            <div class="container">
+                &copy; 2022 - Projet_Exam_ASP.NetCore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+
+
+
+
+        </footer>
+        <style>
+            #email:hover {
+                color: #808080;
+            }
+        </style>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </body>
+</html>
+<script>
+    $(document).ready(function () {
+        $("#Cat").change(function () {
+            $('#sousCat1').removeAttr('disabled');
+            $.get("/Filtre/GetsousCategories", { cat: $("#Cat").val() }, function (data) {
+                $("#sousCat1").empty();
+                i = 0
+                $("#sousCat1").append("<option value='null' selected > --Select sous-categorie--</option>");
+                data.forEach(f => {
+                    i = i + 1;
+                    $("#sousCat1").append("<option value='" + i + "'>" + f + "</option>");
+                })
+            });
+        })
+        $('#categ').ready(function () {
+            //$("#categ").empty();
+            //$("#categ").append('<a href="#"  class="list-group-item list-group-item-action active">Catégories</a >');
+            $.get("/Filtre/GetCategories", function (data) {
+                var i = 0;
+                data.forEach(f => {
+                    $("#categ").append('<a  href="/Filtre/FiltreParCategories?cat=' + i + '&souscat=' + null + '" id="sc' + i + '"class="list-group-item list-group-item-action ">' + f + '</a>');
+                    i = i + 1;
+                })
+            })
+        })
+
+        //$(document).ready(function () {
+        //    $("#sousCat1").change(function () {
+        //        alert("test")
+        //            if (value != null) {
+        //        var select = document.getElementById('sousCat1');
+        //        var value = select.options[select.selectedIndex].value;
+        //            /*$.get("/Filtre/FiltreParCategories",);*/
+        //    });
+    })
+    var categApper = false;
+    var souscategApper = false;
+    $('#categB').hover(
+        function () {
+            document.getElementById("categ").style.display = "flex";
+        }, function () {
+
+            //document.getElementById("souscateg").style.display = "none";
+            //document.getElementById("categ").style.display = "none";
+        })
+    //$('#souscat').hover(
+    //    function () {
+    //        document.getElementById("categ").style.display = "flex";
+    //        document.getElementById("souscateg").style.display = "flex";
+    //    },
+    //    function () {
+    //        document.getElementById("categ").style.display = "none";
+    //        document.getElementById("souscateg").style.display = "none";
+    //    }
+    //)
+    $('#div1cat').hover(function () { },
+        function () {
+            document.getElementById("categ").style.display = "none";
+            document.getElementById("souscateg").style.display = "none";
+        })
+    $('#categ').hover(
+        function () {
+            document.getElementById("categ").style.display = "flex";
+            for (let i = 0; i < 7; i++) {
+                $('#sc' + i).hover(function () {
+                    //document.getElementById("categ").style.display = "flex";
+                    $.get("/Filtre/GetsousCategories", { cat: i }, function (data) {
+                        $("#souscateg").empty();
+                        //$("#souscateg").append('<a href="#"  class="list-group-item list-group-item-action active">Sous Catégories</a >');
+                        var j = 0;
+                        data.forEach(f => {
+                            $("#souscateg").append('<a href="/Filtre/FiltreParCategories?cat=' + i + '&souscat=' + j + '" class="list-group-item list-group-item-action ">' + f + '</a>');
+                            j++;
+                        })
+                        document.getElementById("souscateg").style.display = "flex";
+                    });
+                }, function () {
+                })
+            }
+        }, function () {
+
+        });
+
+
+
+    function changeE() {
+        var select = document.getElementById('sousCat1');
+        var value = select.options[select.selectedIndex].value;
+        if (value != null) {
+
+            $.get("/Filtre/FiltreParCategories", { cat: $("#Cat").val(), souscat: $("#sousCat1").val() });
+        }
+        //var newdiv = document.createElement('div');
+        //newdiv.innerHTML = "<p >cat</p>";
+        //document.getElementById('filtres').appendChild(newdiv);
+        document.getElementById('isCat').Value = "Cat";
+    }
+
+</script>

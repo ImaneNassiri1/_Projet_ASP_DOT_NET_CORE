@@ -1,0 +1,217 @@
+﻿@model List<Projet_Exam_ASP.NetCore.Models.Offre>
+@inject LanguageService language
+<head>
+
+    <style>
+        .fa-heart {
+            color: #bd5757;
+        }
+
+            .fa-heart:hover {
+                color: #e0393985;
+            }
+
+        .backBoutique a {
+            float: right;
+            display: inline-block;
+            height: 50px;
+            width: 350px;
+            margin: 10 40px 0 16px;
+            box-sizing: border-box;
+            border: transparent;
+            border-radius: 60px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #bd5757;
+            cursor: pointer;
+            outline: none;
+            text-decoration: underline;
+        }
+
+            .backBoutique a:hover {
+                color: #212529ba;
+            }
+
+        #bd h2 {
+            color: #000;
+            font-size: 26px;
+            font-weight: 300;
+            text-align: center;
+            text-transform: uppercase;
+            position: relative;
+            margin: 30px 0 80px;
+        }
+
+            #bd h2 b {
+                color: #ffc000;
+            }
+
+        .img-box {
+            height: 160px;
+            width: 100%;
+            position: relative;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            display: inline-block;
+            /*position: absolute;*/
+            bottom: 0;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+        }
+
+        #bd h4 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .btn {
+            color: #333;
+            border-radius: 0;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: bold;
+            background: none;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            margin-top: 5px;
+            line-height: 16px;
+        }
+
+            .btn:hover {
+                color: #fff;
+                background: #000;
+                border-color: #000;
+                box-shadow: none;
+            }
+
+            .btn i {
+                font-size: 14px;
+                font-weight: bold;
+                margin-left: 5px;
+            }
+
+        .thumb-wrapper {
+            text-align: center;
+            background: #dee2e640;
+            width: 220px;
+            margin: 20px;
+            box-shadow: 0px 14px 32px 0px rgb(0 0 0 / 15%);
+        }
+
+        .thumb-content {
+            padding: 15px;
+        }
+
+        .item-price {
+            font-size: 1.3em;
+            padding: 2px 0;
+        }
+
+            .item-price strike {
+                color: #999;
+                margin-right: 5px;
+            }
+
+            .item-price span {
+                color: #bd5757;
+                font-size: 110%;
+            }
+    </style>
+    <script>
+        function FavoriChange(i) {
+            var f = document.getElementById('favoriAnchor' + i);
+            if (f.innerHTML.includes("fas")) {
+                f.innerHTML = f.innerHTML.replace(/fas/g, "far");
+            }
+            else {
+                f.innerHTML = f.innerHTML.replace(/far/g, "fas");
+            }
+            $.get("/Offres/AddRemoveFavoris", { id: i });
+        }
+    </script>
+</head>
+<div id="bd" style=" display: inline-flex; width: 1200px; flex-direction: row; flex-wrap: wrap; margin-top:50px;">
+    @for (int j = 0; j < Model.Count(); j++)
+    {
+        <div class="thumb-wrapper">
+            <table style="width:220px">
+                <tr>
+                    <td style="align-content: center; background: #bd5757; color: white; height: 40px; vertical-align: middle; font-size: 1.5em; font-family: century; padding-top: 10px; ">
+                        <H6>Favoris<span> @ViewBag.NbFavorisParOffre[j]  <i class="fas fa-heart"></i></span></H6>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-top: 5px ;text-align:end">
+
+                        <table style="position: absolute; width: 220px; ">
+                            <tr>
+                                <td style="padding-top: 5px ;text-align:end;width:220px;">
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        @if (ViewBag.CurrentUser != null && ViewBag.CurrentUser.Id == Model[j].AppUserId)
+                                        {
+                                            <a asp-action="Edit" asp-controller="Offres" asp-route-id="@Model[j].Id">
+                                                <i class="fas fa-edit" style="margin-right: 5px; color: #bd5757; font-size: 1.3em"></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a id="@string.Format("favoriAnchor{0}", Model[j].Id)" style=" margin-right: 5px; " onclick="FavoriChange(@Model[j].Id);">
+                                                @if (ViewBag.isFavorisList != null && ViewBag.isFavorisList[j] == true)
+                                                {
+                                                    <i class="fas fa-heart" style=" font-size:1.5em"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="far fa-heart" style=" font-size: 1.5em"></i>
+                                                }
+                                            </a>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <a id="favoriAnchor" style=" margin-right: 5px; " asp-area="Identity" asp-page="/Account/Login">
+                                            <i class="far fa-heart" style=" font-size:1.5em"></i>
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr>
+                                <td style="padding-top: 8px;text-align: center;width:220px;">
+                                    <h6 style="font-size: 0.9rem; color: #bd5757">@Model[j].Date_Dépot</h6>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+            </table>
+            <div class="img-box">
+                <img src="@("~/images/Offres/" + ViewBag.images[j].Nom)" class="img-fluid" asp-append-version="true" alt="">
+
+            </div>
+            <div class="thumb-content">
+                <h4 style="font-size: 18px;">@Model[j].Titre</h4>
+                @{double nouv = Model[j].prix - Model[j].reduction * Model[j].prix / 100;}
+                @if (Model[j].reduction > 0)
+                {
+                    <p class="item-price"><strike>@Model[j].prix</strike> <span>@nouv</span></p>
+                }
+                else
+                {
+                    <p class="item-price"><span style="color:gray">@nouv</span></p>
+                }
+                <a asp-controller="Offres" asp-action="Details" asp-route-id="@Model[j].Id" style="width:150px;" class="btn btn-primary">View details</a>
+            </div>
+        </div>
+    }
+</div>

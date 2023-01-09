@@ -1,0 +1,297 @@
+﻿@model Projet_Exam_ASP.NetCore.Models.Boutique
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<link href="~/css/HomeStyle.css" rel="stylesheet" />
+<script>
+
+    $('.carousel').carousel({
+        interval: 100000
+    })
+    function FavoriChange(i) {
+        var f = document.getElementById('favoriAnchor' + i + 'MeilleuresOffres');
+        var s = document.getElementById('favoriAnchor' + i + 'OffresSpéciales');
+        var n = document.getElementById('favoriAnchor' + i + 'Nouveauté');
+
+        if (s != null) {
+            if (s.innerHTML.includes("fas")) {
+                if (f != null)
+                    f.innerHTML = f.innerHTML.replace(/fas/g, "far");
+                if (n != null)
+                    n.innerHTML = f.innerHTML.replace(/fas/g, "far");
+                s.innerHTML = s.innerHTML.replace(/fas/g, "far");
+            }
+            else {
+                if (f != null)
+                    f.innerHTML = f.innerHTML.replace(/far/g, "fas");
+                if (n != null)
+                    n.innerHTML = f.innerHTML.replace(/far/g, "fas");
+                s.innerHTML = s.innerHTML.replace(/far/g, "fas");
+            }
+        } else if (f != null) {
+            if (f.innerHTML.includes("fas")) {
+                if (n != null)
+                    n.innerHTML = f.innerHTML.replace(/fas/g, "far");
+                f.innerHTML = f.innerHTML.replace(/fas/g, "far");
+            }
+            else {
+                if (n != null)
+                    n.innerHTML = f.innerHTML.replace(/far/g, "fas");
+                f.innerHTML = f.innerHTML.replace(/far/g, "fas");
+            }
+        } else {
+            if (n.innerHTML.includes("fas")) {
+                n.innerHTML = n.innerHTML.replace(/fas/g, "far");
+            }
+            else {
+                n.innerHTML = n.innerHTML.replace(/far/g, "fas");
+            }
+        }
+
+        $.get("/Offres/AddRemoveFavoris", { id: i });
+    }
+
+</script>
+
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Bentham|Playfair+Display|Raleway:400,500|Suranna|Trocchi" rel="stylesheet">
+</head>
+
+<body>
+    <div style="position: absolute; width: 300px; right: auto; height: 60px; margin-top: 50px; left: auto; " class="product-price-btn">
+        <a asp-action="ToutesLesOffres" asp-controller="Offres" asp-route-id="@ViewBag.Propriétaire.Id"><button style=" margin-left: 40px; width: 232px;" type="button">Toutes les offres</button></a>
+    </div>
+    @if (ViewBag.currentUser != null && ViewBag.currentUser.Id == ViewBag.Propriétaire.Id)
+    {
+        <div style="position: absolute; width: 300px; right: auto; height: 60px; margin-top: 120px; left: auto;" class="product-price-btn">
+            <a asp-action="Create" asp-controller="Offres"><button style=" margin-left: 40px; width: 232px;" type="button">Ajouter une offre</button></a>
+        </div>
+        <div style="position: absolute; width: 300px; right: auto; height: 60px; margin-top: 190px; left: auto;" class="product-price-btn">
+            <a asp-action="Statitstics" asp-controller="Boutiques" asp-route-id="@Model.Id"><button style=" margin-left: 40px; width: 232px;" type="button">Vos statitiques</button></a>
+        </div>
+    }
+
+    <div class="wrapper" style="margin-left:300px">
+        <div class="product-img">
+            <img style="background-color: #fdf1ec;object-fit:cover" src="@("/images/Boutiques/" + ViewBag.image)" height="420" width="327">
+        </div>
+        <div class="product-info">
+            <div style="display:inline-flex">
+                <div class="product-text">
+                    <h1>@Model.Nom</h1>
+                    @if (ViewBag.currentUser != null && ViewBag.currentUser.BoutiqueId == Model.Id)
+                    {
+
+                        <h2 style="color: #e03939; margin-top:5px">
+                            Votre boutique
+                            @if (ViewBag.currentUser.Id == ViewBag.Propriétaire.Id)
+                            {
+                                <a asp-action="Edit" asp-controller="Boutiques" asp-route-id="@Model.Id">
+                                    <i class="fas fa-edit" style="margin-left: 20px; color: #e03939; font-size: 1.3em"></i>
+                                </a>
+                            }
+                        </h2>
+                    }
+                    else
+                    {
+                        <h2>by @ViewBag.nomPropriétaire</h2>
+                    }
+                    <p>@Model.Description</p>
+                </div>
+                <div style="background-color:black" class="product-info">
+                    <div class="product-text">
+                        <br />
+                        <h4>Site Web : </h4>
+                        <h3>@Model.site</h3>
+                        <h4>Ville : </h4>
+                        <h3>@Model.Ville</h3>
+                        <h4>Adresse : </h4>
+                        <h3>@Model.Adresse</h3>
+                        <h4>Numero de telephone : </h4>
+                        <h3>@Model.Telephone</h3>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    @{ List<Offre> o = ViewBag.Nouveauté;
+        int nb = o.Count();}
+    @if (nb != 0)
+    {
+        <div>
+            @{ List<Offre> offres;
+                List<Image> images;
+                List<bool> isFavorisList;
+                int nbOffres;
+                string typeIdName;
+            }
+            @for (int x = 0; x < 3; x++)
+            {
+                @if (x == 0)
+                {
+                    offres = ViewBag.OffresSpéciales;
+                    images = ViewBag.imagesOffresSpéciales;
+                    isFavorisList = ViewBag.isFavoriList_OffresSpéciales;
+                    nbOffres = offres.Count();
+                    typeIdName = "OffresSpéciales";
+                }
+                else if (x == 1)
+                {
+                    offres = ViewBag.MeilleuresOffres;
+                    images = ViewBag.imagesMeilleuresOffres;
+                    isFavorisList = ViewBag.isFavoriList_MeilleuresOffres;
+                    nbOffres = offres.Count();
+                    typeIdName = "MeilleuresOffres";
+                }
+                else
+                {
+                    offres = ViewBag.Nouveauté;
+                    images = ViewBag.imagesNouveauté;
+                    isFavorisList = ViewBag.isFavoriList_Nouveauté;
+                    nbOffres = offres.Count();
+                    typeIdName = "Nouveauté";
+                }
+                <div class="container" id="slide">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @if (x == 0)
+                            {<h2 style="font-family:century">Offres <b style="color: #bd5757">Speciales</b></h2>}
+                            else if (x == 1)
+                            {<h2 style="font-family:century">Les mieux <b style="color: #bd5757">notées </b></h2> }
+                            else
+                            {<h2 style="font-family: century; color: #bd5757">Nouvelles <b style="color: black">Offres </b></h2>}
+                            <div id="@string.Format("myCarousel{0}", x)" class="carousel slide" data-ride="carousel" data-interval="0">
+                                <!-- Carousel indicators -->
+                                <ol class="carousel-indicators">
+                                    <li data-target="@string.Format("myCarousel{0}", x)" data-slide-to="0" class="active"></li>
+                                    <li data-target="@string.Format("myCarousel{0}", x)" data-slide-to="1"></li>
+                                    <li data-target="@string.Format("myCarousel{0}", x)" data-slide-to="2"></li>
+                                </ol>
+                                <!-- Wrapper for carousel items -->
+                                <div class="carousel-inner">
+                                    @{int j = 0;}
+                                    @for (int i = 0; i < 3; i++)
+                                    {
+
+                                        <div class="@string.Format("carousel-item{0}", i == 0 ? " active" : "")">
+                                            <div class="row">
+                                                @for (int y = 0; y < 4; y++)
+                                                {
+                                                    if (nbOffres > j)
+                                                    {
+                                                        <div class="col-sm-3">
+                                                            <div class="thumb-wrapper">
+                                                                <table>
+                                                                    <tr>
+                                                                        <td class="Titre-carte">
+                                                                            @if (x == 0)
+                                                                            {<H6>Offre Spéciale <span>-@offres[j].reduction%</span></H6>}
+                                                                        else if (x == 1)
+                                                                        {<H6><span style=" font-size:1.1em">Offre favorite @ViewBag.nombreFavories[j]  <i style="color: white;" class="fas fa-heart"></i></span></H6> }
+                                                                    else
+                                                                    {<H6><span style=" font-size:1.1em">Nouvelle offre<img src="~/Images/nouvsvg.svg" style="width:25px" /></span></H6>}
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                                <table class="icone-titre-carte">
+                                                                    <tr>
+                                                                        <td style="padding-top: 5px ;text-align:end; width:220px">
+                                                                            @if (User.Identity.IsAuthenticated)
+                                                                            {
+                                                                                @if (ViewBag.currentUser.Id != offres[j].AppUserId)
+                                                                                {
+                                                                                    <a id="@string.Format("favoriAnchor{0}{1}", offres[j].Id, typeIdName)" style=" margin-right: 5px; " onclick="FavoriChange(offres[j].Id);">
+                                                                                        @if (isFavorisList != null && isFavorisList[j] == true)
+                                                                                        {
+                                                                                            <i class="fas fa-heart" style=" font-size:1.5em"></i>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <i class="far fa-heart" style=" font-size: 1.5em"></i>
+                                                                                        }
+
+                                                                                    </a>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <table style="position: absolute; width: 220px; "><tr><td style="padding-top: 5px ;text-align:end;"><a asp-action="Edit" asp-controller="Offres" asp-route-id="@offres[j].Id"><i class="fas fa-edit" style="margin-right: 5px; color: #bd5757; font-size: 1.3em"></i></a></td></tr></table>
+
+                                                                                }
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <a id="favoriAnchor" style=" margin-right: 5px; " asp-area="Identity" asp-page="/Account/Login">
+                                                                                    <i class="far fa-heart" style=" font-size:1.5em"></i>
+                                                                                </a>
+                                                                            }
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                                <table>
+                                                                    <tr>
+                                                                        <td style="padding-top: 8px;text-align: center;width:220px;">
+                                                                            <h6 style="font-size: 0.9rem; color: #bd5757">@offres[j].Date_Dépot</h6>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                                <div class="img-box">
+                                                                    <img src="@("~/images/Offres/" + images[j].Nom)" style=" margin-top: 10px;" class="img-fluid" asp-append-version="true" alt="">
+
+                                                                </div>
+                                                                <div class="thumb-content">
+                                                                    <h4>@offres[j].Titre</h4>
+                                                                    @{double nouv = offres[j].prix - offres[j].reduction * offres[j].prix / 100;}
+                                                                    @if (offres[j].reduction > 0)
+                                                                    {
+                                                                        <p class="item-price"><strike>@offres[j].prix</strike> <span>@nouv</span></p>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <p class="item-price"><span style="color:gray">@nouv</span></p>
+                                                                    }
+                                                                    <a asp-controller="Offres" asp-action="Details" asp-route-id="@offres[j].Id" style="width:150px;" class="btn btn-primary">View details</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+
+                                                    j++;
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <!-- Carousel controls -->
+                                <a class="carousel-control-prev" style="width:70px" href="@string.Format("#myCarousel{0}", x)" data-slide="prev">
+                                    <i class="fa fa-angle-left"></i>
+                                </a>
+                                <a class="carousel-control-next" style="width:70px" href="@string.Format("#myCarousel{0}", x)" data-slide="next">
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+
+
+        </div>
+    }
+    else
+    {
+        <h2 style="text-align: center;margin-top: 100px;color: #bd5757;font-size: 1.5em;">
+            --Aucune offre disponible--
+        </h2>
+    }
+</body>
+
+</html>

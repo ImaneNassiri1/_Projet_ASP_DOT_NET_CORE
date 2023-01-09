@@ -1,0 +1,295 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout1";
+}
+<head>
+    <meta charset="utf-8">
+    @*<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">*@
+    <title>Bootstrap Product List Carousel for Ecommerce Website</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link href="~/css/HomeStyle.css" rel="stylesheet" />
+    <style>
+        #slide body {
+            font-family: "Open Sans", sans-serif;
+        }
+
+        body {
+            background: #fdf1ec;
+        }
+
+        #slide .Titre-carte {
+            background: #bd5757;
+        }
+        #carouselExampleIndicators .carousel-indicators li {
+            background-color: #808080c2;
+        }
+
+        #carouselExampleIndicators carousel-indicators .active {
+            background-color: black;
+        }
+        #carouselExampleIndicators .carousel-control-prev-icon {
+            background-image: none;
+        }
+    </style>
+    <script>
+
+        $('.carousel').carousel({
+            interval: 100000
+        })
+        function FavoriChange(i) {
+            var f = document.getElementById('favoriAnchor' + i + 'MeilleuresOffres');
+            var s = document.getElementById('favoriAnchor' + i + 'OffresSpéciales');
+            var n = document.getElementById('favoriAnchor' + i + 'Nouveauté');
+
+            if (s != null) {
+                if (s.innerHTML.includes("fas")) {
+                    if (f != null)
+                        f.innerHTML = f.innerHTML.replace(/fas/g, "far");
+                    if (n != null)
+                        n.innerHTML = f.innerHTML.replace(/fas/g, "far");
+                    s.innerHTML = s.innerHTML.replace(/fas/g, "far");
+                }
+                else {
+                    if (f != null)
+                        f.innerHTML = f.innerHTML.replace(/far/g, "fas");
+                    if (n != null)
+                        n.innerHTML = f.innerHTML.replace(/far/g, "fas");
+                    s.innerHTML = s.innerHTML.replace(/far/g, "fas");
+                }
+            } else if (f != null) {
+                if (f.innerHTML.includes("fas")) {
+                    if (n != null)
+                        n.innerHTML = f.innerHTML.replace(/fas/g, "far");
+                    f.innerHTML = f.innerHTML.replace(/fas/g, "far");
+                }
+                else {
+                    if (n != null)
+                        n.innerHTML = f.innerHTML.replace(/far/g, "fas");
+                    f.innerHTML = f.innerHTML.replace(/far/g, "fas");
+                }
+            } else {
+                if (n.innerHTML.includes("fas")) {
+                    n.innerHTML = n.innerHTML.replace(/fas/g, "far");
+                }
+                else {
+                    n.innerHTML = n.innerHTML.replace(/far/g, "fas");
+                }
+            }
+
+            $.get("/Offres/AddRemoveFavoris", { id: i });
+        }
+
+    </script>
+</head>
+
+@inject LanguageService language
+
+<br />
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" >
+    <ol class="carousel-indicators"style="top: 451px;">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item  active" style="height: 500px;">
+            <img src="~/Images/fondimg4.png" style="width: 1400px; height: 400px; margin-left: 60px; box-shadow: 1px 6px 11px 9px rgb(0 0 0 / 15%); margin-top: 20px;background-color:#fef8f6b3" />
+            <div class="carousel-caption d-none d-md-block" style="align-content:center">
+                <h5 style="color: #565252;width: 400px;margin-left: 780px;margin-bottom: 210px;font-size: 1.7em;font-family: century;">FACILE A POSTER, FACILE A TROUVER!</h5>
+            </div>
+        </div>
+        <div class="carousel-item " style="height: 500px;">
+            <img src="~/Images/fondimg5.png" style="width: 1400px; height: 400px; margin-left: 60px; box-shadow: 1px 6px 11px 9px rgb(0 0 0 / 15%); margin-top: 20px; background-color:#fef8f6b3" />
+            <div class="carousel-caption d-none d-md-block" style="align-content:center">
+                <h5 style="color: #565252;width: 400px;margin-left: 780px;margin-top: 50px;font-size: 1.7em;font-family: century;">CREEZ VOTRE BOUTIQUE EN LIGNE  </h5>
+                <h5 style="color: #884444;width: 300px;margin-left: 830px;margin-bottom: 190px;font-size: 1em;font-family: century;">ET REGROUPEZ TOUTES VOS ANNONCES!</h5>
+            </div>
+        </div>
+
+        <div class="carousel-item  " style="height: 500px;">
+            <img src="~/Images/fondimg2.png" style="width: 1400px; height: 400px; margin-left: 60px; box-shadow: 1px 6px 11px 9px rgb(0 0 0 / 15%); margin-top: 20px;background-color:#fef8f6b3" />
+            <div class="carousel-caption d-none d-md-block" style="align-content:center">
+                <h5 style="color: #565252;width: 400px;margin-left: 780px;margin-bottom: 210px;font-size: 1.7em;font-family: century;">ACHETEZ ET VENDEZ PARTOUT!</h5>
+            </div>
+        </div>
+
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style="height:400px;top:20px;width:180px">
+        <span class="carousel-control-prev-icon" aria-hidden="true" style="font-size: 2em;"><i style=" position: absolute; top: 11.4rem;" class="fa fa-angle-left"></i></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next" style="height: 400px; top: 20px; width: 180px">
+        <span class="carousel-control-next-icon" aria-hidden="true" style="font-size: 2em;"><i class="fa fa-angle-right"></i></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+    <br />
+    <br />
+
+    <body>
+        <div>
+            @{ List<Offre> offres;
+                List<Image> images;
+                List<bool> isFavorisList;
+                int nbOffres;
+                string typeIdName;
+            }
+            @for (int x = 0; x < 3; x++)
+            {
+                @if (x == 0)
+                {
+                    offres = ViewBag.OffresSpéciales;
+                    images = ViewBag.imagesOffresSpéciales;
+                    isFavorisList = ViewBag.isFavoriList_OffresSpéciales;
+                    nbOffres = offres.Count();
+                    typeIdName = "OffresSpéciales";
+                }
+                else if (x == 1)
+                {
+                    offres = ViewBag.MeilleuresOffres;
+                    images = ViewBag.imagesMeilleuresOffres;
+                    isFavorisList = ViewBag.isFavoriList_MeilleuresOffres;
+                    nbOffres = offres.Count();
+                    typeIdName = "MeilleuresOffres";
+                }
+                else
+                {
+                    offres = ViewBag.Nouveauté;
+                    images = ViewBag.imagesNouveauté;
+                    isFavorisList = ViewBag.isFavoriList_Nouveauté;
+                    nbOffres = offres.Count();
+                    typeIdName = "Nouveauté";
+                }
+                <div style="@string.Format("background:{0}",x==1?"#fdf1ec":"white")">
+                    <div class="container" id="slide">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @if (x == 0)
+                                {<h2 style="font-family:century">Offres <b style="color: #bd5757">Speciales</b></h2>}
+                                else if (x == 1)
+                                {<h2 style="font-family:century">Les mieux <b style="color: #bd5757">notées </b></h2> }
+                                else
+                                {<h2 style="font-family: century; color: #bd5757">Nouvelles <b style="color: black">Offres </b></h2>}
+                                <div id="@string.Format("myCarousel{0}",x)" class="carousel slide" data-ride="carousel" data-interval="0">
+                                    <!-- Carousel indicators -->
+                                    <ol class="carousel-indicators">
+                                        <li data-target="@string.Format("myCarousel{0}",x)" data-slide-to="0" class="active"></li>
+                                        <li data-target="@string.Format("myCarousel{0}",x)" data-slide-to="1"></li>
+                                        <li data-target="@string.Format("myCarousel{0}",x)" data-slide-to="2"></li>
+                                    </ol>
+                                    <!-- Wrapper for carousel items -->
+                                    <div class="carousel-inner">
+                                        @{int j = 0;}
+                                        @for (int i = 0; i < 3; i++)
+                                        {
+
+                                            <div class="@string.Format("carousel-item{0}",i==0 ? " active":"")">
+                                                <div class="row">
+                                                    @for (int y = 0; y < 4; y++)
+                                                    {
+                                                        if (nbOffres > j)
+                                                        {
+                                                            <div class="col-sm-3">
+                                                                <div class="thumb-wrapper" style="@string.Format("background:{0}",x!=1?"#fbefea85":"#fef8f6b3")">
+                                                                    <table>
+                                                                        <tr>
+                                                                            <td class="Titre-carte">
+                                                                                @if (x == 0)
+                                                                                {<H6>Offre Spéciale <span>-@offres[j].reduction%</span></H6>}
+                                                                            else if (x == 1)
+                                                                            {<H6><span style=" font-size:1.1em">Offre favorite @ViewBag.nombreFavories[j]  <i style="color: white;" class="fas fa-heart"></i></span></H6> }
+                                                                        else
+                                                                        {<H6><span style=" font-size:1.1em">Nouvelle offre<img src="~/Images/nouvsvg.svg" style="width:25px" /></span></H6>}
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                    <table class="icone-titre-carte">
+                                                                        <tr>
+                                                                            <td style="padding-top: 5px ;text-align:end; width:220px">
+                                                                                @if (User.Identity.IsAuthenticated)
+                                                                                {
+                                                                                    @if (ViewBag.currentUser.Id != offres[j].AppUserId)
+                                                                                    {
+                                                                                        <a id="@string.Format("favoriAnchor{0}{1}", offres[j].Id,typeIdName)" style=" margin-right: 5px; " onclick="FavoriChange(offres[j].Id);">
+                                                                                            @if (isFavorisList != null && isFavorisList[j] == true)
+                                                                                            {
+                                                                                                <i class="fas fa-heart" style=" font-size:1.5em"></i>
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                <i class="far fa-heart" style=" font-size: 1.5em"></i>
+                                                                                            }
+
+                                                                                        </a>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <table style="position: absolute; width: 220px; "><tr><td style="padding-top: 5px ;text-align:end;"><a asp-action="Edit" asp-controller="Offres" asp-route-id="@offres[j].Id"><i class="fas fa-edit" style="margin-right: 5px; color: #bd5757; font-size: 1.3em"></i></a></td></tr></table>
+
+                                                                                    }
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <a id="favoriAnchor" style=" margin-right: 5px; " asp-area="Identity" asp-page="/Account/Login">
+                                                                                        <i class="far fa-heart" style=" font-size:1.5em"></i>
+                                                                                    </a>
+                                                                                }
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                    <table>
+                                                                        <tr>
+                                                                            <td style="padding-top: 8px;text-align: center;width:220px;">
+                                                                                <h6 style="font-size: 0.9rem; color: #bd5757">@offres[j].Date_Dépot</h6>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                    <div class="img-box">
+                                                                        <img src="@("~/images/Offres/"+images[j].Nom)" style=" margin-top: 10px;" class="img-fluid" asp-append-version="true" alt="">
+
+                                                                    </div>
+                                                                    <div class="thumb-content">
+                                                                        <h4>@offres[j].Titre</h4>
+                                                                        @{double nouv = offres[j].prix - offres[j].reduction * offres[j].prix / 100;}
+                                                                        @if (offres[j].reduction > 0)
+                                                                        {
+                                                                            <p class="item-price"><strike>@offres[j].prix</strike> <span>@nouv</span></p>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <p class="item-price"><span style="color:gray">@nouv</span></p>
+                                                                        }
+                                                                        <a asp-controller="Offres" asp-action="Details" asp-route-id="@offres[j].Id" style="width:150px;" class="btn btn-primary">View details</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+
+                                                        j++;
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    <!-- Carousel controls -->
+                                    <a class="carousel-control-prev" style="width:70px" href="@string.Format("#myCarousel{0}",x)" data-slide="prev">
+                                        <i class="fa fa-angle-left"></i>
+                                    </a>
+                                    <a class="carousel-control-next" style="width:70px" href="@string.Format("#myCarousel{0}",x)" data-slide="next">
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </body>

@@ -1,0 +1,423 @@
+﻿@model List<Projet_Exam_ASP.NetCore.Models.Offre>
+@inject LanguageService language
+
+@*<div id="filtres">
+        <p>@ViewBag.categorie </p>
+    </div>
+    @using (Html.BeginForm("Index", "Filtre", FormMethod.Post))
+    {
+        <input type="button" value="Supprimer les filtres par catégorie" class="btn btn-primary" onClick="this.form.submit();removeCat(); ">
+    }
+    <div id="filtres">
+        <p>@ViewBag.search</p>
+    </div>
+    @using (Html.BeginForm("Index", "Filtre", FormMethod.Post))
+    {
+        <input type="button" value="Supprimer les filtres par recherche" class="btn btn-primary" onClick="this.form.submit();removeSearch(); ">
+    }*@
+
+@*<table class="table">
+        <thead>
+            <tr>
+                <th>
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Titre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ville)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_Dépot)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Catégorie)
+                </th>
+                <th>
+                    @Html.DisplayName("Sous Catégorie")
+                </th>
+                <th>
+                    @Html.DisplayName(language.Getkey("Propriétaire"))
+                </th>
+                <th>
+                    @if (User.IsInRole("Admin"))
+                        @Html.DisplayNameFor(model => model.Valide)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.reduction)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 0; }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (ViewBag.currentUser != null && ViewBag.currentUser.Id == item.AppUserId && ViewBag.All_Mine_Favoris != 1)
+                        {
+                            <h6>Votre offre</h6>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Titre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ville)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_Dépot)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Catégorie)
+                    </td>
+                    <td>
+                        @{String s;
+                            List<String> sousCatList;
+                            switch ((int)item.Catégorie)
+                            {
+                                case 0:
+                                    sousCatList = Enum.GetNames(typeof(INFORMATIQUE_ET_MULTIMEDIA)).ToList();
+                                    break;
+                                case 1:
+                                    sousCatList = Enum.GetNames(typeof(HABILLEMENT_ET_BIEN_ETRE)).ToList();
+                                    break;
+                                case 2:
+                                    sousCatList = Enum.GetNames(typeof(VEHICULES)).ToList();
+                                    break;
+                                case 3:
+                                    sousCatList = Enum.GetNames(typeof(LOISIRS_ET_DIVERTISSEMENT)).ToList();
+                                    break;
+                                case 4:
+                                    sousCatList = Enum.GetNames(typeof(IMMOBILIER)).ToList();
+                                    break;
+                                default:
+                                    sousCatList = Enum.GetNames(typeof(POUR_LA_MAISON_ET_JARDIN)).ToList();
+                                    break;
+                            }
+                            s = sousCatList[item.IndiceSousCatégorie];
+                        }
+                        <p>@s</p>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.AppUser.Nom)
+                    </td>
+                    <td>
+                        @if (User.IsInRole("Admin"))
+                            @Html.DisplayFor(modelItem => item.Valide)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.reduction)
+                    </td>
+                    <td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+
+    <script>
+        function removeCat() {
+            $.get("/Filtre/removeCat");
+        }
+        function removeSearch() {
+            $.get("/Filtre/removeSearch");
+        }
+    </script>*@
+
+
+
+
+<style>
+    body {
+        background: #e8cbc0;
+        min-height: 100vh;
+    }
+
+    .bootstrap-select .bs-ok-default::after {
+        width: 0.3em;
+        height: 0.6em;
+        border-width: 0 0.1em 0.1em 0;
+        transform: rotate(45deg) translateY(0.5rem);
+    }
+
+    .btn.dropdown-toggle:focus {
+        outline: none !important;
+    }
+
+    [type="checkbox"] + label {
+        position: absolute;
+    }
+
+    [type="checkbox"] {
+        position: relative;
+        left: 15px;
+        top: -4px;
+        z-index: 0;
+        -webkit-appearance: none;
+    }
+
+        [type="checkbox"] + label::before {
+            width: 15px;
+            height: 15px;
+            background-color: #000;
+            display: block;
+            content: "";
+            float: left;
+            margin-right: 5px;
+            z-index: 5;
+            position: relative;
+        }
+    input[type="checkbox"]:checked + label::before {
+        background-color: #c72f2f;
+    }
+
+    .product-price-btn {
+        height: 103px;
+        width: 327px;
+        margin-top: 17px;
+        position: relative;
+    }
+
+        .product-price-btn p {
+            display: inline-block;
+            position: absolute;
+            top: -13px;
+            height: 50px;
+            font-family: 'Trocchi', serif;
+            margin: 0 0 0 38px;
+            font-size: 28px;
+            font-weight: lighter;
+            color: #05040442;
+        }
+
+
+
+        .product-price-btn button {
+            float: right;
+            display: inline-block;
+            height: 50px;
+            width: 176px;
+            margin: 0 40px 0 16px;
+            box-sizing: border-box;
+            border: transparent;
+            border-radius: 60px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #ffffff;
+            background-color: #05040442;
+            cursor: pointer;
+            outline: none;
+        }
+
+            .product-price-btn button:hover {
+                background-color: #000;
+            }
+
+    .dropbtn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .dropdown-content a:hover {
+                background-color: #ddd;
+            }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .form-control {
+        border: 1px solid #ced4da00;
+    }
+    /*imane 9atli ndir commentaire hna fayn bdit ana */
+    
+</style>
+
+<script>
+    
+    function getVals() {
+        // Get slider values
+        var parent = this.parentNode;
+        var slides = parent.getElementsByTagName("input");
+        var slide1 = parseFloat(slides[0].value);
+        var slide2 = parseFloat(slides[1].value);
+        // Neither slider will clip the other, so make sure we determine which is larger
+        if (slide1 > slide2) { var tmp = slide2; slide2 = slide1; slide1 = tmp; }
+
+        var displayElement = parent.getElementsByClassName("rangeValues")[0];
+        displayElement.innerHTML = "DH " + slide1 + "-" + slide2 + "DH";
+    }
+    $(document).ready(function () {
+    });
+
+    $('#ville').ready(function () {
+        $.get("/Filtre/GetVilles", function (data) {
+            data.forEach(f => {
+                $("#ville").append('<a href="#">' + f + '</a>');
+            })
+        })
+    })
+
+    window.onload = function () {
+        // Initialize Sliders
+        var sliderSections = document.getElementsByClassName("range-slider");
+        for (var x = 0; x < sliderSections.length; x++) {
+            var sliders = sliderSections[x].getElementsByTagName("input");
+            for (var y = 0; y < sliders.length; y++) {
+                if (sliders[y].type === "range") {
+                    sliders[y].oninput = getVals;
+                    // Manually trigger event first time to display values
+                    sliders[y].oninput();
+                }
+            }
+        }
+    }
+    $(function () {
+        $('.selectpicker').selectpicker();
+    });
+    //function onclickreload() {
+    //    alert('test');
+    //    $.get("/Filtre/test");
+    //    $("#test").load(" #test");
+    //}
+
+
+    function FavoriChange(i) {
+        var f = document.getElementById('favoriAnchor' + i);
+        if (f.innerHTML.includes("fas")) {
+            f.innerHTML = f.innerHTML.replace(/fas/g, "far");
+        }
+        else {
+            f.innerHTML = f.innerHTML.replace(/far/g, "fas");
+        }
+        $.get("/Offres/AddRemoveFavoris", { id: i });
+    }
+</script>
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title</title>
+    <link href="~/css/StyleSheet.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Bentham|Playfair+Display|Raleway:400,500|Suranna|Trocchi" rel="stylesheet">
+
+    @*<meta charset="utf-8">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>*@
+
+</head>
+<body style="background-color: #fdf1ec;">
+    <div style="display:inline-flex">
+        <div style=" width: 250px; margin-top: 20px; margin-right: 20px; margin-left: 20px;">
+            <p style="font-family: century; font-size: 20px; border-bottom: 1px solid #8080807a;">Price Range</p>
+            <section class="range-slider" style=" margin-right: 0px; width: 200px; left: 25px; height: 100px;top:10px">
+                <span class="rangeValues"></span>
+                <input value="0" min="0" max="10000000000" step="500" type="range" style="top: 30px; width: 200px;">
+                <input value="0" min="500" max="10000000000" step="500" type="range" style="top: 30px; width: 200px;">
+            </section>
+            <p style="border-bottom: 1px solid #8080807a;">
+                <label style="margin-bottom: 0; font-family: century; font-size: 20px;">Date Range</label>
+            </p>
+
+            <input class="form-control" type="date" style="background-color: #bd57570f; margin-bottom: 10px; border-radius: 4px; border-color: #bd5757; margin-left: 25px; width: 205px; height: 34px; ">
+
+            <input class="form-control" type="date" style="background-color: #bd57570f; margin-bottom: 20px; border-radius: 4px; border-color: #bd5757; margin-left: 25px; width: 205px; height: 34px; ">
+            <p style="margin-bottom: 20px; font-family: century; font-size: 20px; border-bottom: 1px solid #8080807a; ">ville Range</p>
+
+            <div class="dropdown" style="width:232px;">
+                <button class="dropbtn" style="height:34px; width: 205px; background-color: #bd5757; margin-left: 24px; font-size: 18px; border-radius: 7px;padding-bottom:0px;padding-top:0px ">Select please</button>
+                <div class="dropdown-content" id="ville" style=" width: 205px; margin-left: 24px; font-size: 18px; margin-bottom: 20px; ">
+
+                </div>
+            </div>
+
+
+            <div class="checkbox" style=" margin-top: 30px;margin-left:25px">
+                <input id="confirm" type="checkbox" />
+                <label for="confirm" style="color: transparent; width: 200px; z-index: 0; "> </label>
+            </div>
+            <p style="position: absolute; left: 75px; top: 558px; pointer-events: none; ">Offres spéciales</p>
+
+
+            <p id="test" style="margin-bottom:20px;">@ViewBag.random</p>
+
+
+            @*<button id="reload" type="button" class="btn btn-outline-danger" style="color: #bd5757; border-color: #bd5757; background-color: #bd57570f; ">reload</button>*@
+
+        </div>
+        <div style="display: inline-flex; flex-direction: column; margin-left: 60px; margin-top: 50px;">
+            <p style="font-family: century;width:1040px; font-size: 20px; border-bottom: 1px solid #8080807a; margin-bottom: 0px; ">Mini Bar</p>
+            <div style=" height: 120px; box-shadow: -1px 0px 6px 1px rgb(0 0 0 / 2%), 0 6px 20px 0 rgb(0 0 0 / 10%); margin-top: 10px; background: #6c757d0d; border-radius: 10px; width: 1040px; ">
+                <div style=" display: inline-flex; margin-top: 43px; margin-bottom: 43px; ">
+                    <select class="form-control" style=" background-color: #f6ebe6; border-bottom: 2px solid #8080807a; margin-right: 20px; margin-left: 100px; border-radius: 4px; margin-left: 25px; width: 205px; height: 34px; ">
+                        <option selected="selected" value="">favoris</option>
+                        <option selected="selected" value="">prix</option>
+                        <option selected="selected" value="">date</option>
+                    </select>
+                    <select class="form-control" style="background-color: #f6ebe6; border-bottom: 2px solid #8080807a; margin-right: 150px; margin-left: 100px; border-radius: 4px; margin-left: 25px; width: 205px; height: 34px; ">
+                        <option selected="selected" value="">du plus au moin</option>
+                        <option selected="selected" value="">du moin au plus</option>
+
+                    </select>
+                    <div class="product-price-btn">
+                        <button type="button" style="height: 34px; width: 150px; font-size: 15px; margin-right: 0px; margin-left: 400px; ">reload</button>
+                    </div>
+
+                </div>
+
+            </div>
+            <div id="offresFiltrées">
+                @await Html.PartialAsync("~/Views/Shared/_OffresFiltrées.cshtml", Model)
+            </div>
+            </div>
+        </div>
+</body>
+</html>
+
+

@@ -1,0 +1,81 @@
+﻿@*@{
+        if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
+        {
+            Layout = (string)parentLayout;
+        }
+        else
+        {
+            Layout = "/Views/Shared/_Layout2";
+        }
+    }
+
+
+    <h2>Manage your account</h2>
+
+    <div>
+        <h4>Change your account settings</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-3">
+                <partial name="_ManageNav" />
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        @RenderSection("Scripts", required: false)
+    }
+*@
+
+<!--lcode l9dim lfo9--><!--lcode l9dim lfo9--><!--lcode l9dim lfo9--><!--lcode l9dim lfo9-->
+<!--lcode l9dim lfo9--><!--lcode l9dim lfo9--><!--lcode l9dim lfo9--><!--lcode l9dim lfo9-->
+<!--lcode l9dim lfo9--><!--lcode l9dim lfo9--><!--lcode l9dim lfo9--><!--lcode l9dim lfo9-->
+
+@{
+
+    Layout = "/Views/Shared/_Layout2.cshtml";
+}
+
+@*----------------------------------------------------------------------------*@
+<!--style an7to bles pages lo5rin--><!--style an7to bles pages lo5rin-->
+<!--style an7to bles pages lo5rin--><!--style an7to bles pages lo5rin-->
+<!--style an7to bles pages lo5rin--><!--style an7to bles pages lo5rin-->
+<!--style an7to bles pages lo5rin--><!--style an7to bles pages lo5rin-->
+
+        @*<div class="mycol3 register-left" style="background: #000000; border-radius: 10px; margin-top: 0px;">
+
+                <h3 style="margin-top:35%;margin-bottom:40%">Edit your account informations</h3>
+                <div style="margin-top: 20%;">
+                    <partial name="_ManageNav" />
+                </div>
+            </div>*@
+
+        @*<div class="mycol9 ">*@
+        @RenderBody()
+        @*</div>*@
+
+
+    
+
+
+
+
+<!-------------------------------------------->
+<!--andir had les scripts f jihat lo5rin--><!--andir had les scripts f jihat lo5rin-->
+<!--andir had les scripts f jihat lo5rin--><!--andir had les scripts f jihat lo5rin-->
+@*@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+*@
+<!--andir had les scripts f jihat lo5rin--><!--andir had les scripts f jihat lo5rin-->
+<!--andir had les scripts f jihat lo5rin--><!--andir had les scripts f jihat lo5rin-->
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

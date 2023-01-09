@@ -1,0 +1,460 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+
+}
+@using Projet_Exam_ASP.NetCore.Data.enums
+
+@*----------------------------------------------------------------------------*@
+
+
+
+<body onload="particulier();">
+    <style>
+        .fa-camera {
+            position: absolute;
+            bottom: 47px;
+            right: 469px;
+            font-size: 20px;
+            background: #c9c5c5f0;
+            border-radius: 10px;
+            color: black;
+            width: 30px;
+            height: 30px;
+            padding-top: 4px;
+            padding-left: 1px;
+            cursor: pointer;
+        }
+            .fa-camera:hover {
+                background: #c96b6b;
+            }
+        #linkLRegister:hover {
+            color: #1b1e21;
+            text-decoration: none;
+            background: #fdf1ec;
+        }
+
+        #linkLRegister {
+            background: white;
+            text-decoration: none;
+            
+        }
+        .form-control:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #bd5757e0;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem #bd57574f;
+        }
+    /**uuuuuuu*/
+        .mynavnav input[type="radio"] {
+
+            display:none;
+        }
+
+        .mynavnav input[type="radio"]:checked + div {
+             background-color: #203b4c;
+                background-color: black;
+                border-radius: 1.5rem;
+                color: #fff;
+        }
+    /*Profile Pic Start*/
+        .picture-container {
+            position: relative;
+            text-align: center;
+            padding-right: 20%;
+            padding-left: 20%;
+            padding-top: 30px;
+            padding-bottom: 20px;
+        }
+
+        .picture {
+            width: 130px;
+            height: 130px;
+            background-color: #999999;
+            border: 4px solid #CCCCCC;
+            color: #FFFFFF;
+            border-radius: 50%;
+            @*margin: 0px auto;*@
+            overflow: hidden;
+            transition: all 0.2s;
+            -webkit-transition: all 0.2s;
+        }
+        @* tiw tiw tiw *@
+            .picture:hover {
+                border-color: #bd5757;
+            }
+
+    .content.ct-wizard-green .picture:hover {
+        border-color: #05ae0e;
+    }
+
+    .content.ct-wizard-blue .picture:hover {
+        border-color: #3472f7;
+    }
+
+    .content.ct-wizard-orange .picture:hover {
+        border-color: #ff9500;
+    }
+
+    .content.ct-wizard-red .picture:hover {
+        border-color: #ff3b30;
+    }
+
+        .picture input[type="file"] {
+            cursor: pointer;
+            display: block;
+            height: 126px;
+            left: 44%;
+            top: 40px;
+            opacity: 0 !important;
+            position: absolute;
+            width: 126px;
+        }
+        .picture .fa-download {
+            position: absolute;
+        }
+            .picture-src {
+        width: 100%;
+    }
+    /*Profile Pic End*/
+    </style>
+    <div class=" register" style=" min-height: 719px; margin-top: 40px; background: #fdf1ec;">
+        <div class="row" style="min-height: 605px; height: 640px; box-shadow: 0px 14px 32px 0px rgb(0 0 0 / 58%); border-radius: 10px; ">
+            <div class="col-md-3 register-left" style="background: #000000; border-radius: 10px; margin-top: 0px;height:640px">
+                <img src="~/Images/panier.png" />
+                <h3><img src="~/Images/Shopica.png" style="height:60px;width:170px ;margin-top:5px; margin-bottom:0 ;animation:none" /></h3>
+                <p>Shop and Improve your Commerce Activities</p>
+                <h5 style="margin-bottom: 10px; margin-top: 100px;">Have an account?</h5>
+                <a id="linkLRegister" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Login </a>
+            </div>
+
+            <div class="col-md-9 ">
+                <form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+
+
+                    <div class="nav nav-tabs nav-justified mynavnav" >
+                        <input type="radio" required asp-for="Input.Status" id="Particulier" value=@StatutPropriétaire.Particulier onchange="particulier()" checked />
+                        <div class="nav-item ">
+                            <label for="Particulier" style="margin-bottom: 4px; margin-top: 4px;">@StatutPropriétaire.Particulier</label>
+                            <span asp-validation-for="Input.Status" class="text-danger"></span>
+                        </div>
+                        <input type="radio" required asp-for="Input.Status" id="Société" value=@StatutPropriétaire.Société onchange="boutique()" />
+                        <div class="nav-item">
+                            <label for="Société" style="margin-bottom: 4px; margin-top: 4px;">@StatutPropriétaire.Société</label>
+                            <span asp-validation-for="Input.Status" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active">
+                            <!---->
+
+                            <div class="picture-container" id="ImgUser">
+                                <div class="picture" style="margin-left: 40%; margin-top: 10px; margin-bottom: 20px;">
+                                    <img src="~/Images/Profile_Icone_Par_Defaut.png" class="picture-src" id="wizardPicturePreview" title="" style="object-fit: cover; height:100%;">
+                                    <input accept="image/*" type="file" id="wizard-picture" class="picture-src valid" name="Input.ImageProfile" aria-invalid="false" style="vertical-align: middle;">
+                                    <i class="fas fa-camera" id="camera1" style="pointer-events: none;"></i>
+                                </div>
+                                <h6 class=""></h6>
+                            </div>
+                            <div class="picture-container" id="ImgBtq">
+                                <div class="picture" style="margin-left: 40%; margin-top: 10px; margin-bottom: 20px;">
+                                    <img src="~/Images/Boutiques/Boutique_Icone_Par_Defaut.png" class="picture-src" id="wizardPicturePreview1" title="" style="object-fit: cover; height:100%;background:white">
+                                    <input accept="image/*" type="file" id="wizard-picture1" class="picture-src valid" name="Input.ImageBoutique" aria-invalid="false" style="vertical-align: middle;">
+                                    <i class="fas fa-camera" id="camera2" style="pointer-events: none;"></i>
+                                </div>
+                                <h6 class=""></h6>
+                            </div>
+
+
+
+                            <div class="row register-form " style="margin-top: 0%;padding-top: 0%;padding-right: 10%;padding-bottom: 10%;padding-left: 10%;">
+
+                                <div class="col-md-6">
+                                    <div id="Usercol1" class="form-group">
+
+                                        <div class="form-group">
+
+                                            <input asp-for="Input.Nom" class="form-control" placeholder="Nom" />
+                                            <span asp-validation-for="Input.Nom" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <input asp-for="Input.Email" class="form-control" placeholder="Email" />
+                                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <input asp-for="Input.Password" class="form-control" placeholder="Mot de passe" />
+                                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <input asp-for="Input.Telephone" class="form-control" placeholder="Telephone" />
+                                            <span asp-validation-for="Input.Telephone" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div id="boutiquecol1" class="form-group">
+                                        <div class="form-group">
+
+                                            <input asp-for="Input.NomBoutique" class="form-control" placeholder="Nom boutique" />
+                                            <span asp-validation-for="Input.NomBoutique" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <select asp-for="Input.VilleBoutique" class="form-control" asp-items="@Html.GetEnumSelectList<Ville>()" placeholder="Ville">
+                                                <option selected disabled>--Selectionnez une ville--</option>
+                                            </select>
+                                            <span asp-validation-for="Input.VilleBoutique" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <textarea asp-for="Input.DescriptionBoutique" class="form-control" placeholder="Description ..."></textarea>
+                                            <span asp-validation-for="Input.DescriptionBoutique" class="text-danger"></span>
+                                        </div>
+
+                                    </div>
+                                    <input type="button"  class="btnRegister" value="Precedent"style="margin-right:205px" id="precedentButton" onclick="precedent()" />
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div id="usercol2" class="form-group ">
+                                        <div class="form-group">
+
+                                            <input asp-for="Input.Prenom" class="form-control" placeholder="Prenom" />
+                                            <span asp-validation-for="Input.Prenom" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <input class="form-control" placeholder="Confirmer l'email" />
+                                            <span class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirmer Mot de passe" />
+                                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <select asp-for="Input.VilleBoutique" class="form-control" asp-items="@Html.GetEnumSelectList<Ville>()" placeholder="Ville">
+                                                <option selected disabled>--Selectionnez une ville--</option>
+                                            </select>
+                                            <span asp-validation-for="Input.Ville" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div id="boutiquecol2" class="form-group ">
+                                        <div class="form-group ">
+
+                                            <input asp-for="Input.SiteBoutique" class="form-control" placeholder="Site" />
+                                            <span asp-validation-for="Input.SiteBoutique" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <input asp-for="Input.TelephoneBoutique" class="form-control" placeholder="Telephone Boutique" />
+                                            <span asp-validation-for="Input.TelephoneBoutique" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <textarea asp-for="Input.AdresseBoutique" class="form-control" placeholder="Adresse"></textarea>
+                                            <span asp-validation-for="Input.AdresseBoutique" class="text-danger"></span>
+                                        </div>
+
+
+                                    </div>
+                                    <input type="submit"  class="btnRegister" value="Register" id="registerButton" />
+                                    <input type="button"  class="btnRegister" value="Suivant" id="suivantButton" onclick="boutiqueInfo()" />
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-------------------------------------------->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script>
+    function particulier() {
+
+        var ImgUser = document.getElementById('ImgUser');
+        console.log(ImgUser);
+        ImgUser.style.display = '';
+
+        var ImgBtq = document.getElementById('ImgBtq');
+        ImgBtq.style.display = 'none';
+
+        var btnRegister = document.getElementById('registerButton');
+        btnRegister.style.display = '';
+
+        var suivantButton = document.getElementById('suivantButton');
+        suivantButton.style.display = 'none';
+
+        var precedentButton = document.getElementById('precedentButton');
+        precedentButton.style.display = 'none';
+
+        var usercol1 = document.getElementById('Usercol1');
+        usercol1.style.display = '';
+
+        var usercol2 = document.getElementById('usercol2');
+        usercol2.style.display = '';
+
+        var boutiquecol1 = document.getElementById('boutiquecol1');
+        console.log(boutiquecol1);
+        boutiquecol1.style.display = 'none';
+
+        var boutiquecol2 = document.getElementById('boutiquecol2');
+        console.log(boutiquecol2);
+        boutiquecol2.style.display = 'none';
+
+
+    }
+    function boutique() {
+
+        var btnRegister = document.getElementById('registerButton');
+        btnRegister.style.display = 'none';
+
+        var suivantButton = document.getElementById('suivantButton');
+        suivantButton.style.display = '';
+
+    }
+
+    function boutiqueInfo() {
+        var ImgUser = document.getElementById('ImgUser');
+        ImgUser.style.display = 'none';
+
+        var ImgBtq = document.getElementById('ImgBtq');
+        ImgBtq.style.display = '';
+
+        var btnRegister = document.getElementById('registerButton');
+        btnRegister.style.display = '';
+
+        var suivantButton = document.getElementById('suivantButton');
+        suivantButton.style.display = 'none';
+
+        var precedentButton = document.getElementById('precedentButton');
+        precedentButton.style.display = '';
+
+        var usercol1 = document.getElementById('Usercol1');
+        usercol1.style.display = 'none';
+        var usercol2 = document.getElementById('usercol2');
+        usercol2.style.display = 'none';
+
+        var boutiquecol1 = document.getElementById('boutiquecol1');
+        boutiquecol1.style.display = '';
+        var boutiquecol2 = document.getElementById('boutiquecol2');
+        boutiquecol2.style.display = '';
+    }
+
+    function precedent() {
+        var ImgUser = document.getElementById('ImgUser');
+        ImgUser.style.display = '';
+
+        var ImgBtq = document.getElementById('ImgBtq');
+        ImgBtq.style.display = 'none';
+
+        var btnRegister = document.getElementById('registerButton');
+        btnRegister.style.display = 'none';
+
+        var suivantButton = document.getElementById('suivantButton');
+        suivantButton.style.display = '';
+
+        var precedentButton = document.getElementById('precedentButton');
+        precedentButton.style.display = 'none';
+
+        var usercol1 = document.getElementById('Usercol1');
+        usercol1.style.display = '';
+        var usercol2 = document.getElementById('usercol2');
+        usercol2.style.display = '';
+
+        var boutiquecol1 = document.getElementById('boutiquecol1');
+        boutiquecol1.style.display = 'none';
+        var boutiquecol2 = document.getElementById('boutiquecol2');
+        boutiquecol2.style.display = 'none';
+
+    }
+
+
+    $(document).ready(function () {
+        // Prepare the preview for profile picture
+        $("#wizard-picture").change(function () {
+            readURL(this);
+        });
+    });
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    /**/
+    $(document).ready(function () {
+        // Prepare the preview for profile picture
+        $("#wizard-picture1").change(function () {
+            readURL1(this);
+        });
+    });
+    function readURL1(input) {
+        if (input.files && input.files[0]) {
+            var reader1 = new FileReader();
+
+            reader1.onload = function (e) {
+                $('#wizardPicturePreview1').attr('src', e.target.result).fadeIn('slow');
+            }
+            reader1.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#wizard-picture").hover(function () {
+        var i = document.getElementById('camera1');
+        i.style.background = "#c96b6b";
+    },
+        function () {
+            var i = document.getElementById('camera1');
+            i.style.background = "#c9c5c5d9";
+        })
+    $("#wizard-picture1").hover(function () {
+        var i = document.getElementById('camera2');
+        i.style.background = "#c96b6b";
+    },
+        function () {
+            var i = document.getElementById('camera2');
+            i.style.background = "#c9c5c5d9";
+        })
+</script>
+

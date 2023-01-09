@@ -1,0 +1,26 @@
+﻿@{ 
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div style="display:inline-flex">
+        <div style=" border-right: 1px solid #8080807a; width: 250px; margin-top: 20px; margin-right: 20px; ">
+           
+        </div>
+        <div style="display: inline-flex; flex-direction: column; margin-left: 35px; margin-top: 20px;">
+            <div style=" height: 120px; box-shadow: -1px 0px 6px 1px rgb(0 0 0 / 2%), 0 6px 20px 0 rgb(0 0 0 / 10%); margin-top: 40px; background: white; border-radius: 10px; width: 1040px; align-self: center;">
+
+            </div>
+            <div style="margin-top: 30px; margin-left: 40px; margin-right: 40px; margin-bottom: 40px;">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</body>
+</html>
